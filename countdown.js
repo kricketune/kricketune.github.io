@@ -44,11 +44,10 @@ function yo(date, wrapper) {
 	obj2dom( time_difference( date, new Date() ), wrapper )
 }
 
-let yay = new Date('1994-12-16T00:00:00')
-let nofap = new Date('2021-03-08T23:00:00')
+let delele = new Date('2021-12-16T00:00:00')
+let woop = new Date('2021-03-08T23:00:00')
 
-window.setInterval( () => yo(next_date(yay), "c1"), 1 )
-window.setInterval(() => yo(nofap, "c2"), 1)
-
-// BUGS:
-// Get a better way of calling all of those countdowns
+window.setInterval(() => {
+	yo(next_date(delele), "c1")
+	yo(woop, "c2")
+}, 1)
