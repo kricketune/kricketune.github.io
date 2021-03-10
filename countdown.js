@@ -36,6 +36,7 @@ function time_difference(a, b) {
 
 function create_elements (obj, wrapper) {
 	wrapper = document.getElementById(wrapper)
+	wrapper.innerHTML = ''
 
 	Object.keys(obj).forEach(key => {
 		let p = document.createElement('p')
