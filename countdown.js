@@ -1,11 +1,3 @@
-// This function implies every key in `obj` is an element class.
-function obj2dom (obj, wrapper) {
-	let keys = Object.keys(obj)
-	
-	keys.forEach(
-		key => document.querySelector("#" + wrapper + " ." + key).innerHTML = obj[key]
-	)
-}
 
 function next_date(date) {
 	let now = new Date()
@@ -28,24 +20,66 @@ function time_difference(a, b) {
 	let minutes = Math.floor(seconds / 60)
 	let hours = Math.floor(minutes / 60)
 	let days = Math.floor(hours / 24)
+	let weeks = Math.floor(days / 7)
 
 	return {
-		days: days,
+		weeks: weeks,
+		days: days - weeks * 7,
 		hours: hours - days * 24,
 		minutes: minutes - hours * 60,
 		seconds: seconds - minutes * 60,
-		miliseconds: miliseconds - seconds * 1000
+		// miliseconds: miliseconds - seconds * 1000
 	}
+}
+
+/* --- The functions below are very specific --- */
+
+function create_elements (obj, wrapper) {
+	wrapper = document.getElementById(wrapper)
+
+	Object.keys(obj).forEach(key => {
+		let p = document.createElement('p')
+		let span1 = document.createElement('span')
+		let span2 = document.createElement('span')
+
+		span1.className = 'b ' + key /* <-- pay attention to this */
+		span1.innerHTML = '0'
+		span2.className = '_' + key
+		span2.innerHTML = key
+
+		p.append(span1, span2)
+		wrapper.append(p)
+	})
+}
+
+function update_elements (obj, wrapper) {	
+	let ID = '#' + wrapper
+
+	Object.keys(obj).forEach(key => {
+		let selector1 = ID + ' .' + key
+		let selector2 = ID + ' ._' + key
+		let span1 = document.querySelector(selector1)
+		let span2 = document.querySelector(selector2)
+
+		let value = obj[key]
+		if (value == 1) key = key.slice(0, -1)
+
+		span1.innerHTML = value
+		span2.innerHTML = ' ' + key
+	})
 }
 
 /* --- --- --- --- --- --- --- --- --- */
 
 function yo(date, wrapper) {
-	obj2dom( time_difference( date, new Date() ), wrapper )
+	update_elements( time_difference( date, new Date() ), wrapper )
 }
 
 let delele = new Date('2021-12-16T00:00:00')
 let woop = new Date('2021-03-08T23:00:00')
+
+create_elements( time_difference(delele, new Date()), 'c1' )
+create_elements( time_difference(woop, new Date()), 'c2' )
 
 window.setInterval(() => {
 	yo(next_date(delele), "c1")
